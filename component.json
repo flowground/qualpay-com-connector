@@ -1,0 +1,262 @@
+{
+    "title": "Qualpay Payment Gateway",
+    "description": "This document describes the Qualpay Payment Gateway API.",
+    "docsUrl": "",
+    "url": "https://api.apis.guru/v2/specs/qualpay.com/1.7/swagger.json",
+    "envVars": {},
+    "credentials": {
+        "fields": {
+            "server": {
+                "label": "Server",
+                "viewClass": "SelectView",
+                "model": [
+                    "https://api-test.qualpay.com:443/pg",
+                    "--- Custom URL"
+                ],
+                "required": true
+            },
+            "otherServer": {
+                "label": "Custom Server URL",
+                "viewClass": "TextFieldView"
+            },
+            "username": {
+                "label": "Username (basicAuth)",
+                "viewClass": "TextFieldView"
+            },
+            "password": {
+                "label": "Password (basicAuth)",
+                "viewClass": "TextFieldView"
+            }
+        }
+    },
+    "triggers": {
+        "startFlow": {
+            "main": "./lib/triggers/startFlow.js",
+            "type": "polling",
+            "title": "Start Flow",
+            "fields": {}
+        }
+    },
+    "actions": {
+        "Get_Card_Type_Information_": {
+            "main": "./lib/actions/Get_Card_Type_Information_.js",
+            "title": "Card Type Information",
+            "description": "Get Card Type Information for Visa, Mastercard and Discover.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Get_Card_Type_Information_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Authorization": {
+            "main": "./lib/actions/Authorization.js",
+            "title": "Authorize transaction",
+            "description": "An approved transaction will continue to be open until it expires or a capture message is received. Authorizations are automatically voided if they are not captured within 28 days, although most issuing banks will release the hold after 24 hours in retail environments or 7 days in card not present environments.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Authorization.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Batch_Close": {
+            "main": "./lib/actions/Batch_Close.js",
+            "title": "Close batch",
+            "description": "This message is used when the timing of the batch close needs to be controlled by the merchant rather than relying on the daily automatic batch close.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Batch_Close.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Capture": {
+            "main": "./lib/actions/Capture.js",
+            "title": "Capture authorized transaction",
+            "description": "A capture message may be completed for any amount up to the originally authorized amount.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Capture.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Credit": {
+            "main": "./lib/actions/Credit.js",
+            "title": "Issue credit to cardholder",
+            "description": "A non-referenced credit requires that the cardholder data be provided in the message. This message is only available during the first 30 days of account production activity - the refund message should generally be used to return money to the cardholder.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Credit.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Send_Receipt": {
+            "main": "./lib/actions/Send_Receipt.js",
+            "title": "Send transaction receipt email",
+            "description": "Sent the transaction receipt to multiple email addresses. Receipts can be sent only for successful transactions.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Send_Receipt.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "emulatorHandlerUsingPOST": {
+            "main": "./lib/actions/emulatorHandlerUsingPOST.js",
+            "title": "emulatorHandler",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/emulatorHandlerUsingPOST.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Force": {
+            "main": "./lib/actions/Force.js",
+            "title": "Force transaction approval",
+            "description": "Can be used when an online authorization request received a 'declined' reason code and the merchant received an authorization from a voice or automated response (ARU) system. The required fields are the same as a sale or authorization request, except that the expiration date (exp_date) is not required, and the 6-character authorization code (auth_code) IS required.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Force.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Refund": {
+            "main": "./lib/actions/Refund.js",
+            "title": "Refund previously captured transaction",
+            "description": "Returns money to the cardholder from a previously captured transaction. Multiple refunds are allowed per captured transaction, provided that the sum of all refunds does not exceed the original captured transaction amount. Authorizations that have not been captured are not eligible for refund.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Refund.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Sale": {
+            "main": "./lib/actions/Sale.js",
+            "title": "Sale (Auth + Capture)",
+            "description": "This message will perform an authorization of the transaction, and if approved will immediately capture the transaction to be included in the next batch close. It is used in card present environments, and also card not present environments where no physical goods are being shipped.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Sale.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Tokenize": {
+            "main": "./lib/actions/Tokenize.js",
+            "title": "Tokenize card",
+            "description": "Once stored, a unique card identifier is returned for use in future transactions. Optionally, tokenization can be requested in an auth, verify, force, credit, or sale message by sending the tokenize field set to true.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Tokenize.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Verify": {
+            "main": "./lib/actions/Verify.js",
+            "title": "Verify Card",
+            "description": "A verify message will return success if the cardholder information was verified by the issuer. If AVS or CVV data is included in the message, then the AVS or CVV result code will be returned in the response message.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Verify.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "Void": {
+            "main": "./lib/actions/Void.js",
+            "title": "Void previously authorized transaction",
+            "description": "Authorizations can be voided at any time. Captured transactions can be voided until the batch is closed.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/Void.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}

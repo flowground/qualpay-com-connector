@@ -1,0 +1,105 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "avs_address": {
+                    "description": "<strong>Format: </strong>Variable length, up to 20 AN<br><strong>Description: </strong>Street address of the cardholder. If present, it will be included in the authorization request sent to the issuing bank.",
+                    "example": "123 Main St",
+                    "type": "string"
+                },
+                "avs_zip": {
+                    "description": "<strong>Format: </strong>Variable length, up to 9 N<br><strong>Description: </strong>Zip code of the cardholder. If present, it will be included in the authorization request sent to the issuing bank.<br><strong>Conditional Requirement: </strong>This field is required if avs_address is present.",
+                    "example": "94402",
+                    "type": "string"
+                },
+                "card_id": {
+                    "description": "<strong>Format: </strong>Fixed length, 32 AN<br><strong>Description: </strong>Card ID received from a tokenization request. The card_id may be used in place of a card number in requests requiring cardholder account data.<br><strong>Conditional Requirement: </strong>Refer to <a href=\"/developer/api/reference#card-source-conditional-requirements\"target=\"_blank\">Card or Bank Account Data Sources and Conditional Requirements</a>",
+                    "example": "86e1b00d9b0811e68df3069d8f743581",
+                    "type": "string"
+                },
+                "card_number": {
+                    "description": "<strong>Format: </strong>Variable length, up to 19 N<br><strong>Description: </strong>Cardholder's card number.<br><strong>Conditional Requirement: </strong>Refer to <a href=\"/developer/api/reference#card-source-conditional-requirements\"target=\"_blank\">Card or Bank Account Data Sources and Conditional Requirements</a>",
+                    "example": "4111111111111111",
+                    "type": "string"
+                },
+                "card_swipe": {
+                    "description": "<strong>Format: </strong>Variable length, up to 79<br><strong>Description: </strong>Contains either track 1 or track 2 magnetic stripe data. If the magnetic stripe reader provides both track 1 and track 2 data in a single read, it is the responsibility of the implementer to send data for only one of the two tracks.<br><strong>Conditional Requirement: </strong>Refer to <a href=\"/developer/api/reference#card-source-conditional-requirements\"target=\"_blank\">Card or Bank Account Data Sources and Conditional Requirements</a>",
+                    "example": ";4111111111111111=08051010912345678901?8",
+                    "type": "string"
+                },
+                "cardholder_name": {
+                    "description": "<strong>Format: </strong>Variable length, up to 64 AN<br><strong>Description: </strong>When provided in a tokenize request, the cardholder name will be stored in the Card Vault along with the cardholder card number and expiration date.",
+                    "example": "JOHN CUSTOMER",
+                    "type": "string"
+                },
+                "cvv2": {
+                    "description": "<strong>Format: </strong>Variable length, up to 4 N<br><strong>Description: </strong>CVV2 or CID value from the signature panel on the back of the cardholder's card. If present during a request that requires authorization, the value will be sent to the issuer for validation.",
+                    "example": "152",
+                    "type": "string"
+                },
+                "developer_id": {
+                    "description": "<strong>Format: </strong>Variable length, up to 16 AN<br><strong>Description: </strong>Used to indicate which company developed the integration to the Qualpay Payment Gateway. This may also be used to provide the payment solution name that is connected to the Qualpay Payment Gateway.",
+                    "example": "MyIntegration",
+                    "type": "string"
+                },
+                "echo_fields": {
+                    "description": "<strong>Format: </strong>Variable length<br><strong>Description: </strong>This field contains a JSON array of field data that will be echoed back in the response message.",
+                    "example": "[ {\"product\" : \"lawnmower\"},{\"purchase\" : \"1 yr maintenance\"} ]",
+                    "type": "string"
+                },
+                "exp_date": {
+                    "description": "<strong>Format: </strong>Fixed length, 4 N(MMYY format)<br><strong>Description: </strong>Expiration date of cardholder card number. When card_id or customer_id is present in the request this field may also be present; if it is not, then the expiration date from the Card Vault will be used.<br><strong>Conditional Requirement: </strong>Refer to <a href=\"/developer/api/reference#card-source-conditional-requirements\"target=\"_blank\">Card or Bank Account Data Sources and Conditional Requirements</a>",
+                    "example": "0921",
+                    "type": "string"
+                },
+                "loc_id": {
+                    "description": "<strong>Format: </strong>Variable length, up to 4 N<br><strong>Description: </strong>When a merchant has more than one location using the same currency, this value is used to specify the specific location for this request.",
+                    "example": "0001",
+                    "type": "string"
+                },
+                "merchant_id": {
+                    "description": "<strong>Format: </strong>Variable length, up to 12 N<br><strong>Description: </strong>Unique identifier on the Qualpay system.",
+                    "example": "<Provide merchant id that links to API Key>",
+                    "format": "int64",
+                    "type": "integer"
+                },
+                "profile_id": {
+                    "description": "<strong>Format: </strong>Fixed length, 20 N<br><strong>Description: </strong>Explicitly identifies which Payment Gateway profile should be used for the request.",
+                    "example": "21200001000300000978",
+                    "type": "string"
+                },
+                "report_data": {
+                    "description": "<strong>Format: </strong>Variable length<br><strong>Description: </strong>This field contains a JSON array of field data that will be included with the transaction data reported in Qualpay Manager.",
+                    "example": "[ {\"shipping address\" : \"123 Main St.\"},{\"shipping city, state zip\" : \"San Mateo, CA 94402\"} ]",
+                    "type": "string"
+                },
+                "retry_id": {
+                    "description": "<strong>Format: </strong>Variable length, up to 15 N<br><strong>Description: </strong>This field contains a merchant generated number used to identify the request. This value must be unique within the last 24 hours. When present, the payment gateway will use the retry_attempt to determine whether the message is new or a retry of a previous message.",
+                    "example": 1234,
+                    "format": "int64",
+                    "type": "integer"
+                },
+                "session_id": {
+                    "description": "INTERNAL USE ONLY.",
+                    "type": "string"
+                },
+                "single_use": {
+                    "description": "<br><strong>Default: </strong>false<br><strong>Description: </strong>In a tokenize request, setting the single_use field to \"true\" will cause a single-use token to be generated. This token will expire in 10 minutes or when first used.",
+                    "example": true,
+                    "type": "boolean"
+                },
+                "user_id": {
+                    "description": "INTERNAL USE ONLY.",
+                    "format": "int64",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "exp_date",
+                "merchant_id"
+            ],
+            "type": "object"
+        }
+    }
+}

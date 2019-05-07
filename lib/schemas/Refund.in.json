@@ -1,0 +1,76 @@
+{
+    "type": "object",
+    "properties": {
+        "pgIdOrig": {
+            "required": true,
+            "type": "string"
+        },
+        "requestBody": {
+            "properties": {
+                "amt_tran": {
+                    "description": "<strong>Format: </strong>Variable length, up to 12,2 N<br><strong>Description: </strong>Total amount to refund. Partial refunds are allowed by providing an amount in this field that is less than the total original transaction amount.",
+                    "example": 1193.5,
+                    "format": "double",
+                    "type": "number"
+                },
+                "developer_id": {
+                    "description": "<strong>Format: </strong>Variable length, up to 16 AN<br><strong>Description: </strong>Used to indicate which company developed the integration to the Qualpay Payment Gateway. This may also be used to provide the payment solution name that is connected to the Qualpay Payment Gateway.",
+                    "example": "MyIntegration",
+                    "type": "string"
+                },
+                "echo_fields": {
+                    "description": "<strong>Format: </strong>Variable length<br><strong>Description: </strong>This field contains a JSON array of field data that will be echoed back in the response message.",
+                    "example": "[ {\"product\" : \"lawnmower\"},{\"purchase\" : \"1 yr maintenance\"} ]",
+                    "type": "string"
+                },
+                "loc_id": {
+                    "description": "<strong>Format: </strong>Variable length, up to 4 N<br><strong>Description: </strong>When a merchant has more than one location using the same currency, this value is used to specify the specific location for this request.",
+                    "example": "0001",
+                    "type": "string"
+                },
+                "merchant_id": {
+                    "description": "<strong>Format: </strong>Variable length, up to 12 N<br><strong>Description: </strong>Unique identifier on the Qualpay system.",
+                    "example": "<Provide merchant id that links to API Key>",
+                    "format": "int64",
+                    "type": "integer"
+                },
+                "profile_id": {
+                    "description": "<strong>Format: </strong>Fixed length, 20 N<br><strong>Description: </strong>Explicitly identifies which Payment Gateway profile should be used for the request.",
+                    "example": "21200001000300000978",
+                    "type": "string"
+                },
+                "report_data": {
+                    "description": "<strong>Format: </strong>Variable length<br><strong>Description: </strong>This field contains a JSON array of field data that will be included with the transaction data reported in Qualpay Manager.",
+                    "example": "[ {\"shipping address\" : \"123 Main St.\"},{\"shipping city, state zip\" : \"San Mateo, CA 94402\"} ]",
+                    "type": "string"
+                },
+                "retry_id": {
+                    "description": "<strong>Format: </strong>Variable length, up to 15 N<br><strong>Description: </strong>This field contains a merchant generated number used to identify the request. This value must be unique within the last 24 hours. When present, the payment gateway will use the retry_attempt to determine whether the message is new or a retry of a previous message.",
+                    "example": 1234,
+                    "format": "int64",
+                    "type": "integer"
+                },
+                "session_id": {
+                    "description": "INTERNAL USE ONLY.",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "INTERNAL USE ONLY.",
+                    "format": "int64",
+                    "type": "integer"
+                },
+                "vendor_id": {
+                    "description": "<strong>Format: </strong>Variable length, up to 12 N<br><strong>Description: </strong>Identifies the vendor to which this refund request applies.",
+                    "example": 212100026512,
+                    "format": "int64",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "amt_tran",
+                "merchant_id"
+            ],
+            "type": "object"
+        }
+    }
+}
